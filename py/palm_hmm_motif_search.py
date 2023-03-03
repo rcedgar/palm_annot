@@ -122,7 +122,7 @@ for Line in open(DomTbl):
 	if Line.startswith('#'):
 		continue
 	Fields = Line[:-1].split()
-	Label = Fields[0]
+	Label = Fields[0].split()[0]
 	HMM = Fields[3].split('.')[0]
 	E = float(Fields[11])
 	if E > Args.evalue:
@@ -179,6 +179,7 @@ def GetTrimSeq(Seq, PosA, PosB, PosC):
 	return Seq[Lo:Hi]
 
 def OnChunkSeq(Label, Seq):
+	Label = Label.split()[0]
 	SeqA, SeqB, SeqC = polhummer.GetMotifs(Seq)
 	if SeqA == "" and SeqB == "" and SeqC == "":
 		return
@@ -188,7 +189,6 @@ def OnChunkSeq(Label, Seq):
 			continue
 		FullSeq += c.upper()
 	E = LabelToE[Label]
-	Label0 = Label.split()[0]
 	FullPosA = FindMotif(FullSeq, SeqA)
 	FullPosB = FindMotif(FullSeq, SeqB)
 	FullPosC = FindMotif(FullSeq, SeqC)
@@ -203,11 +203,11 @@ def OnChunkSeq(Label, Seq):
 	ABCAnnot = "A:%d:%s" % (TrimPosA+1, SeqA)
 	ABCAnnot += " B:%d:%s" % (TrimPosB+1, SeqB)
 	ABCAnnot += " C:%d:%s" % (TrimPosC+1, SeqC)
-	NewLabel = Label0 + " " + ABCAnnot + " " + "HMM:" + HMM
+	NewLabel = Label + " " + ABCAnnot + " " + "HMM:" + HMM
 	if not fCore is None:
 		fasta.WriteSeq(fCore, TrimSeq, NewLabel)
 
-	FevRec = Label0
+	FevRec = Label
 	FevRec += "\tmotif_hmm=%s/%.3g" % (HMM, E)
 	FevRec += "\thmm_A=%s,%d" % (SeqA, FullPosA)
 	FevRec += "\thmm_B=%s,%d" % (SeqB, FullPosB)

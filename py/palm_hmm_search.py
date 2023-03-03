@@ -111,7 +111,7 @@ for rdrp_xxx in [ "rdrp_plus", "rdrp_minus" ]:
 		if Line.startswith('#'):
 			continue
 		Fields = Line[:-1].split()
-		Label = Fields[0]
+		Label = Fields[0].split()[0]
 		HMM = Fields[3].split('.')[0]
 		E = float(Fields[11])
 		if E > Args.evalue:

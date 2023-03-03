@@ -146,10 +146,10 @@ for Line in open(TsvFN):
 	E = float(Fields[4])
 	if E > Args.evalue:
 		continue
-	QueryLabel = Fields[0]
+	QueryLabel = Fields[0].split()[0]
 	Lo = int(Fields[1])
 	Hi = int(Fields[2])
-	TargetLabel = Fields[3]
+	TargetLabel = Fields[3].split()[0]
 	QSeg = Fields[5]
 	TSeg = Fields[6]
 	CIGAR = Fields[7]
