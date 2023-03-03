@@ -168,9 +168,9 @@ for Line in open(TsvFN):
 	TPosB = TSeg.find(TB)
 	TPosC = TSeg.find(TC)
 	if TPosA >= 0:
-		SeqA = GetMotif(QRow, TRow, TPosA, 10)
+		SeqA = GetMotif(QRow, TRow, TPosA, 12)
 	if TPosB >= 0:
-		SeqB = GetMotif(QRow, TRow, TPosB, 12)
+		SeqB = GetMotif(QRow, TRow, TPosB, 14)
 	if TPosC >= 0:
 		SeqC = GetMotif(QRow, TRow, TPosC, 8)
 

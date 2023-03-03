@@ -196,9 +196,13 @@ def OnChunkSeq(Label, Seq):
 	if TrimSeq is None:
 		return
 
-	TrimPosA = FindMotif(TrimSeq, SeqA)
-	TrimPosB = FindMotif(TrimSeq, SeqB)
-	TrimPosC = FindMotif(TrimSeq, SeqC)
+	USeqA = SeqA.replace("-", "")
+	USeqB = SeqB.replace("-", "")
+	USeqC = SeqC.replace("-", "")
+
+	TrimPosA = FindMotif(TrimSeq, USeqA)
+	TrimPosB = FindMotif(TrimSeq, USeqB)
+	TrimPosC = FindMotif(TrimSeq, USeqC)
 
 	ABCAnnot = "A:%d:%s" % (TrimPosA+1, SeqA)
 	ABCAnnot += " B:%d:%s" % (TrimPosB+1, SeqB)
@@ -209,9 +213,12 @@ def OnChunkSeq(Label, Seq):
 
 	FevRec = Label
 	FevRec += "\tmotif_hmm=%s/%.3g" % (HMM, E)
-	FevRec += "\thmm_A=%s,%d" % (SeqA, FullPosA)
-	FevRec += "\thmm_B=%s,%d" % (SeqB, FullPosB)
-	FevRec += "\thmm_C=%s,%d" % (SeqC, FullPosC)
+	if FullPosA >= 0:
+		FevRec += "\thmm_A=%s,%d" % (SeqA, FullPosA+1)
+	if FullPosB >= 0:
+		FevRec += "\thmm_B=%s,%d" % (SeqB, FullPosB+1)
+	if FullPosC >= 0:
+		FevRec += "\thmm_C=%s,%d" % (SeqC, FullPosC+1)
 	if not fFev is None:
 		fFev.write(FevRec + "\n")
 
