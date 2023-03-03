@@ -78,7 +78,7 @@ if not os.path.isdir(TmpDir):
 
 sys.stderr.write("Reading input...")
 sys.stderr.flush()
-SeqDict = fasta.ReadSeqsDict(Args.input)
+SeqDict = fasta.ReadSeqsDict(Args.input, True)
 SeqCount = len(SeqDict.keys())
 sys.stderr.write(" %d seqs.\n" % SeqCount)
 
