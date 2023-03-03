@@ -56,6 +56,7 @@ AP.add_argument("--dbsize",
 
 AP.add_argument("--threads",
   required=False,
+  type=int,
   help="Number of hmmsearch threads (default --cpu option of hmmsearch not set)")
 
 Args = AP.parse_args()
@@ -98,12 +99,12 @@ HMMDb = RepoDir + "hmmdbs/motifs"
 
 CmdLine = "hmmsearch"
 CmdLine += " --domtbl " + DomTbl
+if not Args.threads is None:
+	CmdLine += " --cpu %d" % Args.threads
 CmdLine += " -E %.3g" % Args.evalue
 CmdLine += " -Z %d" % Args.dbsize
 CmdLine += "  " + HMMDb
 CmdLine += "  " + Args.input
-if not Args.threads is None:
-	CmdLine += " --cpu %d" % Args.threads
 CmdLine += " > /dev/null"
 
 sys.stderr.write("Running hmmsearch...")
@@ -146,7 +147,7 @@ for Label in Labels:
 	HMMToLabels[HMM].append(Label)
 
 def FindMotif(Seq, Motif):
-	if Motif == "" or Motif == "-" or Motif == ".":
+	if Seq is None or Motif is None or Motif == "" or Motif == "-" or Motif == ".":
 		return 0
 
 	n = Seq.find(Motif)
@@ -192,6 +193,8 @@ def OnChunkSeq(Label, Seq):
 	FullPosB = FindMotif(FullSeq, SeqB)
 	FullPosC = FindMotif(FullSeq, SeqC)
 	TrimSeq = GetTrimSeq(FullSeq, FullPosA, FullPosB, FullPosC)
+	if TrimSeq is None:
+		return
 
 	TrimPosA = FindMotif(TrimSeq, SeqA)
 	TrimPosB = FindMotif(TrimSeq, SeqB)

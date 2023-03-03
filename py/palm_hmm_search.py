@@ -50,6 +50,7 @@ AP.add_argument("--dbsize",
   help="Effective db size for E-value (-Z option of hmmsearch, default 100000)")
 
 AP.add_argument("--threads",
+  type=int,
   required=False,
   help="Number of hmmsearch threads (default --cpu option of hmmsearch not set)")
 
@@ -90,12 +91,12 @@ for rdrp_xxx in [ "rdrp_plus", "rdrp_minus" ]:
 
 	CmdLine = "hmmsearch"
 	CmdLine += " --domtbl " + DomTbl
+	if not Args.threads is None:
+		CmdLine += " --cpu %d" % Args.threads
 	CmdLine += " -E %.3g" % Args.evalue
 	CmdLine += " -Z %d" % Args.dbsize
 	CmdLine += "  " + HMMDb
 	CmdLine += "  " + Args.input
-	if not Args.threads is None:
-		CmdLine += " --cpu %d" % Args.threads
 	CmdLine += " > /dev/null"
 
 	sys.stderr.write("Running hmmsearch %s..." % rdrp_xxx)

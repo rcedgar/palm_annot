@@ -39,6 +39,7 @@ AP.add_argument("--evalue",
   help="Max E-value for HMM search (default 1e-9)")
 
 AP.add_argument("--threads",
+  type=int,
   required=False,
   help="Number of hmmsearch threads (default --threads option of diamond not set)")
 
@@ -88,7 +89,7 @@ CmdLine += "  --max-target-seqs 1"
 CmdLine += " --%s" % Args.sensitive
 CmdLine += " --db " + RefDb
 if not Args.threads is None:
-	CmdLine += " --cpu %d" % Args.threads
+	CmdLine += " --threads %d" % Args.threads
 CmdLine += " --outfmt 6 qseqid qstart qend sseqid evalue qseq sseq cigar"
 CmdLine += " > " + TsvFN
 
