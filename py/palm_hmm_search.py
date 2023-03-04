@@ -158,9 +158,15 @@ for Label in Labels:
 
 	FevRec = Label
 	if Ep <= Args.evalue:
-		FevRec += "\thmm_rdrp_plus=%s,%.3g,%d,%d" % (HMMp, Ep, Lop, Hip)
+		FevRec += "\thmm_rdrp_plus=%s" % (HMMp)
+		FevRec += "\thmm_rdrp_plus_evalue=%.3g" % (Ep)
+		FevRec += "\thmm_rdrp_plus_lo=%d" % (Lop)
+		FevRec += "\thmm_rdrp_plus_hi=%d" % (Hip)
 	if Em <= Args.evalue:
-		FevRec += "\thmm_rdrp_minus=%s,%.3g,%d,%d" % (HMMm, Em, Lom, Him)
+		FevRec += "\thmm_rdrp_minus=%s" % (HMMm)
+		FevRec += "\thmm_rdrp_minus_evalue=%.3g" % (Em)
+		FevRec += "\thmm_rdrp_minus_lo=%d" % (Lom)
+		FevRec += "\thmm_rdrp_minus_hi=%d" % (Him)
 	fFev.write(FevRec + "\n")
 
 fFev.close()

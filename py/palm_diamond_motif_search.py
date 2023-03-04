@@ -138,6 +138,16 @@ def GetMotif(QRow, TRow, TPos, n):
 			j += 1
 	return None
 
+def GetMotifPos(QSeg, QLo, M):
+	if M is None or M == "":
+		return None
+	n = QSeg.find(M)
+	r = QSeg.rfind(M)
+	if n != r:
+		return None
+	Pos = n + QLo
+	return Pos
+
 for Line in open(TsvFN):
 #      0      1    2      3      4    5    6     7
 # qseqid qstart qend sseqid evalue qseq sseq cigar
@@ -147,8 +157,8 @@ for Line in open(TsvFN):
 	if E > Args.evalue:
 		continue
 	QueryLabel = Fields[0].split()[0]
-	Lo = int(Fields[1])
-	Hi = int(Fields[2])
+	QLo = int(Fields[1])
+	QHi = int(Fields[2])
 	TargetLabel = Fields[3].split()[0]
 	QSeg = Fields[5]
 	TSeg = Fields[6]
@@ -176,14 +186,23 @@ for Line in open(TsvFN):
 
 	FevRec = QueryLabel
 	FevRec += "\tdmnd_evalue=%.3g" % E
-	FevRec += "\tdmnd_lo=%d" % Lo
-	FevRec += "\tdmnd_hi=%d" % Hi
+	FevRec += "\tdmnd_lo=%d" % QLo
+	FevRec += "\tdmnd_hi=%d" % QHi
 	if not SeqA is None:
-		FevRec += "\tdmnd_A=%s" % SeqA
+		PosA = GetMotifPos(QSeg, QLo, SeqA)
+		FevRec += "\tdmnd_seqA=%s" % SeqA
+		if not PosA is None:
+			FevRec += "\tdmnd_posA=%s" % PosA
 	if not SeqB is None:
-		FevRec += "\tdmnd_B=%s" % SeqB
+		PosB = GetMotifPos(QSeg, QLo, SeqB)
+		FevRec += "\tdmnd_seqB=%s" % SeqB
+		if not PosB is None:
+			FevRec += "\tdmnd_posB=%d" % PosB
 	if not SeqC is None:
-		FevRec += "\tdmnd_C=%s" % SeqC
+		PosC = GetMotifPos(QSeg, QLo, SeqC)
+		FevRec += "\tdmnd_seqC=%s" % SeqC
+		if not PosC is None:
+			FevRec += "\tdmnd_posC=%d" % PosC
 
 	fFev.write(FevRec + "\n")
 
