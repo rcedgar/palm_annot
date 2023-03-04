@@ -215,11 +215,14 @@ def OnChunkSeq(Label, Seq):
 	FevRec += "\tmotif_hmm=%s" % (HMM)
 	FevRec += "\tmotif_hmm_evalue=%.3g" % (E)
 	if FullPosA >= 0:
-		FevRec += "\tmotif_hmm_A=%s,%d" % (SeqA, FullPosA+1)
+		FevRec += "\tmotif_hmm_seqA=%s" % (SeqA)
+		FevRec += "\tmotif_hmm_posA=%d" % (FullPosA+1)
 	if FullPosB >= 0:
-		FevRec += "\tmotif_hmm_B=%s,%d" % (SeqB, FullPosB+1)
+		FevRec += "\tmotif_hmm_seqB=%s" % (SeqB)
+		FevRec += "\tmotif_hmm_posB=%d" % (FullPosB+1)
 	if FullPosC >= 0:
-		FevRec += "\tmotif_hmm_C=%s,%d" % (SeqC, FullPosC+1)
+		FevRec += "\tmotif_hmm_seqC=%s" % (SeqC)
+		FevRec += "\tmotif_hmm_posC=%d" % (FullPosC+1)
 	if not fFev is None:
 		fFev.write(FevRec + "\n")
 
