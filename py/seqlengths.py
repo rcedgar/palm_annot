@@ -6,6 +6,7 @@ import fasta
 FastaFileName = sys.argv[1]
 
 def OnSeq(Label, Seq):
-	print("%s	seqlength=%d" % (Label, len(Seq)))
+	Label0 = Label.split()[0]
+	print("%s	seqlength=%d" % (Label0, len(Seq)))
 
 fasta.ReadSeqsOnSeq(FastaFileName, OnSeq)
