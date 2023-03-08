@@ -99,7 +99,7 @@ CmdLine += " -model " + PSSMModelFN
 CmdLine += " -trunclabels"
 CmdLine += "  -fev " + PSSM_fev
 if not Args.threads is None:
-	CmdLine += "  -threads " + Args.threads
+	CmdLine += "  -threads %d" % Args.threads
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_hmm_motif_search.py"
