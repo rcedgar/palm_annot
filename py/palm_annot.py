@@ -31,7 +31,7 @@ AP.add_argument("--fev",
   help="Output file (fev format)")
 
 AP.add_argument("--fasta",
-  required=True,
+  required=False,
   help="Trimmed sequences (150pp150, fasta format)")
 
 AP.add_argument("--rdrp",
@@ -161,10 +161,12 @@ sys.stderr.write(" done.\n")
 
 CmdLine = RepoDir + "bin/palmscan2"
 CmdLine += " -pamerge " + Tmp_fev
-CmdLine += " -fev " + Args.fev
-CmdLine += " -fasta " + Args.fasta
 CmdLine += " -minscore %.4g" % Args.minscorerdrp
 CmdLine += " -maxscore %.4g" % Args.maxscorexdxp
+if not Args.fev is None:
+	CmdLine += " -fev " + Args.fev
+if not Args.fasta is None:
+	CmdLine += " -fasta " + Args.fasta
 if not Args.rdrp is None:
 	CmdLine += " -fasta_rdrp " + Args.rdrp
 if not Args.rdrp is None:
