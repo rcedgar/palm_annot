@@ -171,8 +171,8 @@ if not Args.rdrp is None:
 	CmdLine += " -fasta_xdxp " + Args.xdxp
 Exec(CmdLine)
 
-## for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
-	## Exec("rm -f " + FN)
+for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
+	Exec("rm -f " + FN)
 
 Pct = 0
 if SeqCount > 0:
