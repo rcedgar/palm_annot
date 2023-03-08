@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+rm -rf ../hmmdbs
 mkdir -p ../hmmdbs
 cd ../hmmdbs
 

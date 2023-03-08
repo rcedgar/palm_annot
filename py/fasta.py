@@ -1,4 +1,4 @@
-def ReadSeqsOnSeq(FileName, OnSeq):
+def ReadSeqsOnSeq(FileName, OnSeq, trunclabels=False):
 	Label = None
 	Seq = ""
 	for Line in open(FileName):
@@ -7,6 +7,8 @@ def ReadSeqsOnSeq(FileName, OnSeq):
 			continue
 		if Line[0] == ">":
 			if len(Seq) > 0:
+				if trunclabels:
+					Label = Label.split()[0]
 				OnSeq(Label, Seq)
 			Label = Line[1:]
 			Seq = ""

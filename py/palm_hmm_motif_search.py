@@ -84,7 +84,7 @@ sys.stderr.write(" %d seqs.\n" % SeqCount)
 
 pid = os.getpid()
 r = random.randint(0, 999999)
-TmpPrefix = TmpDir + "phms%d.%d." % (pid, r)
+TmpPrefix = TmpDir + "palm_annot.hmmm.%d.%d." % (pid, r)
 sys.stderr.write("TmpPrefix = %s\n" % TmpPrefix)
 
 fCore = None

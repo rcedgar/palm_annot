@@ -73,10 +73,10 @@ if not os.path.isdir(TmpDir):
 
 pid = os.getpid()
 r = random.randint(0, 999999)
-TmpPrefix = TmpDir + "pdms%d.%d." % (pid, r)
+TmpPrefix = TmpDir + "palm_annot.dmnd.%d.%d." % (pid, r)
 sys.stderr.write("TmpPrefix = %s\n" % TmpPrefix)
 
-TsvFN = TmpPrefix + ".tsv"
+TsvFN = TmpPrefix + "tsv"
 
 RefDb = RepoDir + "diamond_refdbs/rdrp_plus_abc"
 

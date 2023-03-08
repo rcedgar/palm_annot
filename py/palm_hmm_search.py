@@ -73,7 +73,7 @@ if not os.path.isdir(TmpDir):
 
 pid = os.getpid()
 r = random.randint(0, 999999)
-TmpPrefix = TmpDir + "phs%d.%d." % (pid, r)
+TmpPrefix = TmpDir + "palm_annot.hmmpm.%d.%d." % (pid, r)
 sys.stderr.write("TmpPrefix = %s\n" % TmpPrefix)
 
 fFev = open(Args.fev , "w")
