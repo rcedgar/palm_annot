@@ -106,21 +106,21 @@ CmdLine = RepoDir + "py/palm_hmm_motif_search.py"
 CmdLine += "  --input " + Args.input
 CmdLine += " --fev " + HMM_motif_fev
 if not Args.threads is None:
-	CmdLine += "  --threads " + Args.threads
+	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_hmm_search.py"
 CmdLine += "  --input " + Args.input
 CmdLine += "  --fev " + HMM_pm_fev
 if not Args.threads is None:
-	CmdLine += "  --threads " + Args.threads
+	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_diamond_motif_search.py"
 CmdLine += "  --input " + Args.input
 CmdLine += " --fev " + Dmnd_fev
 if not Args.threads is None:
-	CmdLine += "  --threads " + Args.threads
+	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
 
 Labels = set()
