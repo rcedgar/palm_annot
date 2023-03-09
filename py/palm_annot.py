@@ -8,7 +8,12 @@ import fasta
 
 Usage = \
 (
-"Useage: TODO\n"
+"Classify amino acid sequences as RdRp or non-RdRp palm domain"
+" and trim to the domain by deleting non-palm flanking sequence"
+" using '150pp150' trimming, i.e. allow no more than 150aa"
+" before the palmprint start and no more than 150aa after"
+" palmprint end. See palm_nuc_search.py if you have nucleotide"
+" sequence such as contigs or genomes."
 )
 
 # RepoDir = path name of repository
@@ -28,31 +33,31 @@ AP.add_argument("--input",
 
 AP.add_argument("--fev",
   required=True,
-  help="Output file (fev format)")
+  help="Annotation output file (tab-separated text in field=value format)")
 
 AP.add_argument("--fasta",
   required=False,
-  help="Trimmed sequences (150pp150, fasta format)")
+  help="FASTA output trimmed sequences (150pp150)")
 
 AP.add_argument("--rdrp",
   required=False,
-  help="Trimmed RdRp sequences (150pp150, fasta format)")
+  help="FASTA output RdRp sequences (150pp150)")
 
 AP.add_argument("--xdxp",
   required=False,
-  help="Trimmed non-RdRp palm domain sequences (150pp150, fasta format)")
+  help="FASTA output non-RdRp palm domain sequences (150pp150)")
 
 AP.add_argument("--maxscorexdxp",
   required=False,
   type=float,
   default=25,
-  help="Maximum RdRp score for --xdxp FASTA output (default 25)")
+  help="Maximum RdRp score for --xdxp FASTA output (0 to 100, default 25)")
 
 AP.add_argument("--minscorerdrp",
   required=False,
   type=float,
   default=75,
-  help="Minimum score for --rdrp FASTA output (default 75)")
+  help="Minimum score for --rdrp FASTA output (0 to 100, default 75)")
 
 AP.add_argument("--threads",
   type=int,
