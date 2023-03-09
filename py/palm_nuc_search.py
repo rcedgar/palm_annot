@@ -55,6 +55,12 @@ AP.add_argument("--threads",
   required=False,
   help="Number of threads for HMM and diamond search (default relevant options not set)")
 
+AP.add_argument("--sensitive",
+  required=False,
+  default="very-sensitive",
+  choices=[ "fast", "midsensitive", "more-sensitive", "very-sensitive"],
+  help="diamond sensitivity option")
+
 Args = AP.parse_args()
 def Exec(CmdLine):
 	Code = os.system(CmdLine)
@@ -77,15 +83,81 @@ r = random.randint(0, 999999)
 TmpPrefix = TmpDir + "palm_nuc_search.%d.%d." % (pid, r)
 sys.stderr.write("TmpPrefix = %s\n" % TmpPrefix)
 
-DomTbl = TmpPrefix + ".domtbl"
+fOut = open(Args.output, "w")
+
+TmpFa = TmpPrefix + "xlat.fa"
+
+CmdLine = "palmscan2"
+CmdLine += " -fasta_xlat " + Args.input
+CmdLine += " -fastaout " + TmpFa
+
+sys.stderr.write("Six-frame translation...")
+sys.stderr.flush()
+Exec(CmdLine)
+sys.stderr.write(" done.\n")
+
+HitsFN = TmpPrefix + "hmmhits"
 HMMDb = RepoDir + "hmmdbs/palm"
 
 CmdLine = "hmmsearch"
-CmdLine += " --domtbl " + DomTbl
+CmdLine += " -o /dev/null"
+CmdLine += " --domtbl /dev/stdout"
 if not Args.threads is None:
 	CmdLine += " --cpu %d" % Args.threads
 CmdLine += " -E %.3g" % Args.evalue
 CmdLine += " -Z %d" % Args.dbsize
 CmdLine += "  " + HMMDb
-CmdLine += "  " + Args.input
-CmdLine += " > /dev/null"
+CmdLine += "  " + TmpFa
+CmdLine += " | grep -v ^#"
+CmdLine += " | sed '-es/[| ].*//'"
+CmdLine += " > " + HitsFN
+
+sys.stderr.write("Running hmmsearch...")
+sys.stderr.flush()
+Exec(CmdLine)
+sys.stderr.write(" done.\n")
+
+RefDb = RepoDir + "diamond_refdbs/rdrp_plus_abc"
+
+CmdLine = "diamond blastx"
+CmdLine += " --query " + Args.input
+CmdLine += " --evalue %.3g" % Args.evalue
+CmdLine += "  --max-target-seqs 1"
+CmdLine += " --%s" % Args.sensitive
+CmdLine += " --db " + RefDb
+if not Args.threads is None:
+	CmdLine += " --threads %d" % Args.threads
+CmdLine += " --outfmt 6 qseqid"
+CmdLine += " >> " + HitsFN
+
+sys.stderr.write("Running diamond ...")
+sys.stderr.flush()
+Exec(CmdLine)
+sys.stderr.write(" done.\n")
+
+sys.stderr.write("Unique hits ...")
+sys.stderr.flush()
+
+def StripLabel(Label):
+	Label = Label.strip()
+	Label = Label.split()[0]
+	Label = Label.split('|')[0]
+	Labels.add(Label)
+
+Labels = set()
+for Line in open(HitsFN):
+	Label = StripLabel(Line)
+	Labels.add(Label)
+N = len(Labels)
+sys.stderr.write(" done, %d hits.\n" % N)
+
+def OnSeq(Label, Seq):
+	Label0 = StripLabel(Label)
+	if Label0 in Labels:
+		fasta.WriteSeq(fOut, Seq, Label)
+
+fasta.ReadSeqsOnSeq(Args.input, OnSeq)
+fOut.close()
+
+CmdLine = "rm -f " + TmpFa + " " + HitsFN
+Exec(CmdLine)
