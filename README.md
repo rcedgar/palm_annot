@@ -9,7 +9,7 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 2. Add `~/palm_annot/bin` and `~/palm_annot/py` to your `$PATH`.
 
-3. Make sure execute permission is set on `palm_annot/bin/*` and `palm_annot/py/*`.
+3. Make sure execute permission is set on `~/palm_annot/bin/*` and `~/palm_annot/py/*`.
 
 ### palm_nuc_search.py
 
