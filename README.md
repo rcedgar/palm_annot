@@ -7,7 +7,7 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 1. Clone the repo, e.g. to `~/palm_annot`.
 
-2. Add `~/palm_annot/bin` and ``~/palm_annot/py` to your `$PATH`.
+2. Add `~/palm_annot/bin` and `~/palm_annot/py` to your `$PATH`.
 
 ### palm_nuc_search.py
 
