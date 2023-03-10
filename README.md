@@ -20,9 +20,12 @@ palm_nuc_search.py --input contigs.fna --output hits.fna
 
 Optional arguments:
   --tmpdir TMPDIR       Directory for temporary files
-  --evalue EVALUE       Max E-value for HMM and diamond search (default 1e-3)
-  --dbsize DBSIZE       Effective db size for E-value (-Z option of hmmsearch, default 100000)
-  --threads THREADS     Number of threads for HMM and diamond search (default relevant options not set)
+  --evalue EVALUE       Max E-value for HMM and diamond search
+                          (default 1e-3)
+  --dbsize DBSIZE       Effective db size for E-value
+                          (-Z option of hmmsearch, default 100000)
+  --threads THREADS     Number of threads for HMM and diamond search
+                          (default relevant options not set)
   --sensitive {fast,midsensitive,more-sensitive,very-sensitive}
                         diamond sensitivity option
 </pre>
