@@ -39,7 +39,7 @@ AP.add_argument("--fasta",
   required=False,
   help="FASTA output RdRp trimmed sequences (150pp150)")
 
-AP.add_argument("--minscorerdrp",
+AP.add_argument("--minscore",
   required=False,
   type=float,
   default=75,
@@ -158,7 +158,7 @@ sys.stderr.write(" done.\n")
 
 CmdLine = RepoDir + "bin/palmscan2"
 CmdLine += " -pamerge " + Tmp_fev
-CmdLine += " -minscore %.4g" % Args.minscorerdrp
+CmdLine += " -minscore %.4g" % Args.minscore
 if not Args.fev is None:
 	CmdLine += " -fev " + Args.fev
 if not Args.fasta is None:
