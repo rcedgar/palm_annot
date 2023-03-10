@@ -1,7 +1,7 @@
-### palm_annot
+## palm_annot
 Scripts, HMMs and search databases for identifying and classifying viral RdRp sequences
 
-## Installation
+### Installation
 
 This version **requires Ubuntu** (or compatible) due to use of precompiled binaries.
 
@@ -9,7 +9,7 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 2. Add `~/palm_annot/bin` and ``~/palm_annot/py` to your `$PATH`.
 
-## palm_nuc_search.py
+### palm_nuc_search.py
 
 Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences. Output is the subset of input
 sequences predicted to have RdRp or RdRp-like hits, no trimming or annotation is performed. Trimming and annotation of the
@@ -27,7 +27,7 @@ Optional arguments:
                         diamond sensitivity option
 </pre>
 
-## palm_annot.py
+### palm_annot.py
 
 Classify amino acid sequences as RdRp or non-RdRp palm domain and trim to the domain by deleting non-palm flanking sequence
 using '150pp150' trimming, i.e. allow no more than 150aa before the palmprint start and no more than 150aa after palmprint
