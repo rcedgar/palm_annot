@@ -38,7 +38,7 @@ palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.faa
 
 Options:
   --fev FEV             Annotation output file (tab-separated text in field=value format)
-  --fasta FASTA         FASTA output trimmed sequences (150pp150)
+  --fasta FASTA         FASTA output RdRp and non-RdRp trimmed sequences (150pp150)
   --rdrp RDRP           FASTA output RdRp sequences (150pp150)
   --xdxp XDXP           FASTA output non-RdRp palm domain sequences (150pp150)
   --maxscorexdxp MAXSCOREXDXP
