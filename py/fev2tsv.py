@@ -33,7 +33,7 @@ AP.add_argument("--header",
   required=False,
   choices=[ "no", "yes" ],
   default="yes",
-  help="Include tsv header with field names as first name, yes or no (default yes)")
+  help="Include tsv header with field names as first line, yes or no (default yes)")
 
 Args = AP.parse_args()
 
