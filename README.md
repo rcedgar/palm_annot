@@ -69,6 +69,6 @@ values only and optional header with field names.
                           (default: all fields found in fev file)
   --nullvalue NULLVALUE
                         String to use if value not specified (default empty string)
-  --header {no,yes}     Include tsv header with field names as first name, yes
+  --header {no,yes}     Include tsv header with field names as first line, yes
                         or no (default yes)
 </pre>
