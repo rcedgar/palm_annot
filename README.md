@@ -28,6 +28,7 @@ Optional arguments:
                           (default relevant options not set)
   --sensitive {fast,midsensitive,more-sensitive,very-sensitive}
                         diamond sensitivity option
+                          (default very-sensitive)
 </pre>
 
 ### palm_annot.py
