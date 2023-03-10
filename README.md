@@ -11,6 +11,13 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 3. Make sure execute permission is set on `~/palm_annot/bin/*` and `~/palm_annot/py/*`.
 
+### FASTA labels
+
+FASTA labels must be unique after truncating at first white space or pipe character (vertical bar, '|').
+If you are using an ORF-finder or 6-frame translation software which appends information such as coordinates
+and frame after white space, you must post-process the FASTA file to ensure that labels are unique, e.g. by
+replacing blanks with underscores.
+
 ### palm_nuc_search.py
 
 Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences. Output is the subset of input
