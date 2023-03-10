@@ -9,6 +9,8 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 2. Add `~/palm_annot/bin` and `~/palm_annot/py` to your `$PATH`.
 
+3. Make sure execute permission is set on p`alm_annot/bin/*` and `palm_annot/py/*`.
+
 ### palm_nuc_search.py
 
 Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences. Output is the subset of input
