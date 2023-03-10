@@ -40,14 +40,17 @@ end. See `palm_nuc_search.py` if you have nucleotide sequence such as contigs or
 palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.faa
 
 Options:
-  --fev FEV             Annotation output file (tab-separated text in field=value format)
+  --fev FEV             Annotation output file
+                          (tab-separated text in field=value format)
   --fasta FASTA         FASTA output RdRp and non-RdRp trimmed sequences (150pp150)
   --rdrp RDRP           FASTA output RdRp sequences (150pp150)
   --xdxp XDXP           FASTA output non-RdRp palm domain sequences (150pp150)
   --maxscorexdxp MAXSCOREXDXP
-                        Maximum RdRp score for --xdxp FASTA output (0 to 100, default 25)
+                        Maximum RdRp score for --xdxp FASTA output
+                          (0 to 100, default 25)
   --minscorerdrp MINSCORERDRP
-                        Minimum score for --rdrp FASTA output (0 to 100, default 75)
+                        Minimum score for --rdrp FASTA output
+                          (0 to 100, default 75)
   --threads THREADS     Number of threads (default depends on invoked script or binary)
   --tmpdir TMPDIR       Directory for temporary files (default /tmp)
 </pre>
