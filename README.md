@@ -31,7 +31,7 @@ Optional arguments:
 
 Classify amino acid sequences as RdRp or non-RdRp palm domain and trim to the domain by deleting non-palm flanking sequence
 using '150pp150' trimming, i.e. allow no more than 150aa before the palmprint start and no more than 150aa after palmprint
-end. See palm_nuc_search.py if you have nucleotide sequence such as contigs or genomes.
+end. See `palm_nuc_search.py` if you have nucleotide sequence such as contigs or genomes.
 
 <pre>
 palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.fa
