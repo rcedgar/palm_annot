@@ -14,7 +14,7 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences. Output is the subset of input
 sequences predicted to have RdRp or RdRp-like hits, no trimming or annotation is performed. Trimming and annotation of the
 matching sequences can by performed by (1) translating to aa by 6-frame translation or ORF-finding, then (2) running
-palm_annot.py on the aa sequences.
+`palm_annot.py` on the aa sequences.
 <pre>
 palm_nuc_search.py --input contigs.fna --output hits.fna
 
