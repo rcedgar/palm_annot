@@ -11,7 +11,7 @@ Usage = \
 "Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences."
 " Output is the subset of input sequences predicted to have RdRp or RdRp-like hits,"
 " no trimming or annotation is performed."
-" Trimming and annotation of the matching sequences can by performed by"
+" Trimming and annotation of the matching sequences can be done by"
 " (1) translating to aa by 6-frame translation or ORF-finding, then"
 " (2) running palm_annot.py on the aa sequences."
 )

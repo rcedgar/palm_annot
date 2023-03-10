@@ -37,7 +37,7 @@ AP.add_argument("--fev",
 
 AP.add_argument("--fasta",
   required=False,
-  help="FASTA output trimmed sequences (150pp150)")
+  help="FASTA output RdRp and non-RdRp trimmed sequences (150pp150)")
 
 AP.add_argument("--rdrp",
   required=False,
