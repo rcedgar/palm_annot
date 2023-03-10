@@ -34,7 +34,7 @@ using '150pp150' trimming, i.e. allow no more than 150aa before the palmprint st
 end. See `palm_nuc_search.py` if you have nucleotide sequence such as contigs or genomes.
 
 <pre>
-palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.fa
+palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.faa
 
 Options:
   --fev FEV             Annotation output file (tab-separated text in field=value format)
