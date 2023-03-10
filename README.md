@@ -56,3 +56,19 @@ Options:
   --tmpdir TMPDIR       Directory for temporary files (default /tmp)
 </pre>
 </pre>
+
+### fev2tsv.py
+
+Convert tab-separated text name=value (fev) format to tab-separated text with
+values only and optional header with field names.
+
+<pre>
+  --input INPUT         Input file in fev format (required)
+  --output OUTPUT       Output file in tsv format (default stdout)
+  --fields FIELDS       Comma-separated list of field names
+                          (default: all fields found in fev file)
+  --nullvalue NULLVALUE
+                        String to use if value not specified (default empty string)
+  --header {no,yes}     Include tsv header with field names as first line, yes
+                        or no (default yes)
+</pre>
