@@ -37,27 +37,13 @@ AP.add_argument("--fev",
 
 AP.add_argument("--fasta",
   required=False,
-  help="FASTA output RdRp and non-RdRp trimmed sequences (150pp150)")
-
-AP.add_argument("--rdrp",
-  required=False,
-  help="FASTA output RdRp sequences (150pp150)")
-
-AP.add_argument("--xdxp",
-  required=False,
-  help="FASTA output non-RdRp palm domain sequences (150pp150)")
-
-AP.add_argument("--maxscorexdxp",
-  required=False,
-  type=float,
-  default=25,
-  help="Maximum RdRp score for --xdxp FASTA output (0 to 100, default 25)")
+  help="FASTA output RdRp trimmed sequences (150pp150)")
 
 AP.add_argument("--minscorerdrp",
   required=False,
   type=float,
   default=75,
-  help="Minimum score for --rdrp FASTA output (0 to 100, default 75)")
+  help="Minimum score for RdRp (0 to 100, default 75)")
 
 AP.add_argument("--threads",
   type=int,
@@ -68,6 +54,12 @@ AP.add_argument("--tmpdir",
   required=False,
   default="/tmp",
   help="Directory for temporary files (default /tmp)")
+
+AP.add_argument("--keeptmp",
+  required=False,
+  default="no",
+  choices=[ "no", "yes" ],
+  help="Keep tmp files for trouble-shooting (default no)")
 
 Args = AP.parse_args()
 
@@ -167,19 +159,15 @@ sys.stderr.write(" done.\n")
 CmdLine = RepoDir + "bin/palmscan2"
 CmdLine += " -pamerge " + Tmp_fev
 CmdLine += " -minscore %.4g" % Args.minscorerdrp
-CmdLine += " -maxscore %.4g" % Args.maxscorexdxp
 if not Args.fev is None:
 	CmdLine += " -fev " + Args.fev
 if not Args.fasta is None:
 	CmdLine += " -fasta " + Args.fasta
-if not Args.rdrp is None:
-	CmdLine += " -fasta_rdrp " + Args.rdrp
-if not Args.rdrp is None:
-	CmdLine += " -fasta_xdxp " + Args.xdxp
 Exec(CmdLine)
 
-for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
-	Exec("rm -f " + FN)
+if Args.keeptmp == "no":
+	for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
+		Exec("rm -f " + FN)
 
 Pct = 0
 if SeqCount > 0:

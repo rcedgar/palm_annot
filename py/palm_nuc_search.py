@@ -61,6 +61,13 @@ AP.add_argument("--sensitive",
   choices=[ "fast", "midsensitive", "more-sensitive", "very-sensitive"],
   help="diamond sensitivity option")
 
+AP.add_argument("--keeptmp",
+  required=False,
+  default="no",
+  choices=[ "no", "yes" ],
+  help="Keep tmp files for trouble-shooting (default no)")
+
+
 Args = AP.parse_args()
 def Exec(CmdLine):
 	Code = os.system(CmdLine)
@@ -89,6 +96,8 @@ TmpFa = TmpPrefix + "xlat.fa"
 
 CmdLine = "palmscan2"
 CmdLine += " -fasta_xlat " + Args.input
+CmdLine += " -trunclabels"
+CmdLine += " -sep '|frame='"
 CmdLine += " -fastaout " + TmpFa
 
 sys.stderr.write("Six-frame translation...")
@@ -96,7 +105,7 @@ sys.stderr.flush()
 Exec(CmdLine)
 sys.stderr.write(" done.\n")
 
-HitsFN = TmpPrefix + "hmmhits"
+HitsFN = TmpPrefix + "hits"
 HMMDb = RepoDir + "hmmdbs/palm"
 
 CmdLine = "hmmsearch"
@@ -142,7 +151,7 @@ def StripLabel(Label):
 	Label = Label.strip()
 	Label = Label.split()[0]
 	Label = Label.split('|')[0]
-	Labels.add(Label)
+	return Label
 
 Labels = set()
 for Line in open(HitsFN):
@@ -151,13 +160,23 @@ for Line in open(HitsFN):
 N = len(Labels)
 sys.stderr.write(" done, %d hits.\n" % N)
 
+Nout = 0
+Label0Set = set()
 def OnSeq(Label, Seq):
+	global Nout
 	Label0 = StripLabel(Label)
+	if Label0Set in Label0Set:
+		sys.stderr.write("\n===ERROR===\nDuplicate label >%s\n\n" % Label0)
+		sys.exit(1)
+	Label0Set.add(Label)
+
 	if Label0 in Labels:
 		fasta.WriteSeq(fOut, Seq, Label)
 
 fasta.ReadSeqsOnSeq(Args.input, OnSeq)
+sys.stderr.write("%d sequences output\n" % Nout)
 fOut.close()
 
-CmdLine = "rm -f " + TmpFa + " " + HitsFN
-Exec(CmdLine)
+if Args.keeptmp == "no":
+	CmdLine = "rm -f " + TmpFa + " " + HitsFN
+	Exec(CmdLine)
