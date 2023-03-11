@@ -157,6 +157,8 @@ def OnSeq(Label, Seq):
 	global OutCount
 	global SeqCount
 	SeqCount += 1
+	if Label in Dupes:
+		return
 	if Label in Labels:
 		L = len(Seq)
 		Line = Label
