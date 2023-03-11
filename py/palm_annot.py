@@ -84,6 +84,20 @@ def Exec(CmdLine):
 		sys.stderr.write("Error code %d\n" % Code)
 		assert False
 
+Dupes = set()
+LabelSet = set()
+def OnSeqDupes(Label, Seq):
+	if Label in LabelSet:
+		Dupes.add(Label)
+	else:
+		LabelSet.add(Label)
+fasta.ReadSeqsOnSeq(Args.input, OnSeqDupes)
+
+DupeCount = len(Dupes)
+if DupeCount > 0:
+	Example = next(iter(Dupes))
+	sys.stderr.write("%d sequences with duplicate labels ignored e.g. >%s\n" % (DupeCount, Example))
+
 PSSMModelFN = RepoDir + "pssms/palm.ppm"
 PSSM_fev = TmpPrefix + "pssm.fev"
 HMM_motif_fev = TmpPrefix + "hmm_motif.fev"
@@ -121,31 +135,20 @@ if not Args.threads is None:
 Exec(CmdLine)
 
 Labels = set()
-Dupes = set()
 LabelToFields = {}
 for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev ]:
 	Labels1 = set()
-	Dupes1 = set()
 	for Line in open(FN):
 		Fields = Line[:-1].split('\t')
 
 		Label = Fields[0]
-		if Label in Labels1:
-			Dupes1.add(Label)
-			Dupes.add(Label)
-		else:
-			Labels1.add(Label)
-
+		if Label in Dupes:
+			continue
 		if not Label in Labels:
 			LabelToFields[Label] = []
 			Labels.add(Label)
 		for Field in Fields[1:]:
 			LabelToFields[Label].append(Field)
-
-DupeCount = len(Dupes)
-if DupeCount > 0:
-	Example = next(iter(Dupes))
-	sys.stderr.write("%d sequences with duplicate labels ignored e.g. >%s\n" % (DupeCount, Example))
 
 Tmp_fev = TmpPrefix + "merged.fev"
 fTmpFev = open(Tmp_fev, "w")
