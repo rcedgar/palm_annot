@@ -84,20 +84,6 @@ def Exec(CmdLine):
 		sys.stderr.write("Error code %d\n" % Code)
 		assert False
 
-Dupes = set()
-LabelSet = set()
-def OnSeqDupes(Label, Seq):
-	if Label in LabelSet:
-		Dupes.add(Label)
-	else:
-		LabelSet.add(Label)
-fasta.ReadSeqsOnSeq(Args.input, OnSeqDupes)
-
-DupeCount = len(Dupes)
-if DupeCount > 0:
-	Example = next(iter(Dupes))
-	sys.stderr.write("%d sequences with duplicate labels ignored e.g. >%s\n" % (DupeCount, Example))
-
 PSSMModelFN = RepoDir + "pssms/palm.ppm"
 PSSM_fev = TmpPrefix + "pssm.fev"
 HMM_motif_fev = TmpPrefix + "hmm_motif.fev"
@@ -142,8 +128,6 @@ for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev ]:
 		Fields = Line[:-1].split('\t')
 
 		Label = Fields[0]
-		if Label in Dupes:
-			continue
 		if not Label in Labels:
 			LabelToFields[Label] = []
 			Labels.add(Label)
@@ -155,13 +139,22 @@ fTmpFev = open(Tmp_fev, "w")
 LabelToL = {}
 OutCount = 0
 SeqCount = 0
+InputLabels = set()
 def OnSeq(Label, Seq):
 	global fTmpFev
 	global OutCount
 	global SeqCount
 	SeqCount += 1
-	if Label in Dupes:
-		return
+	if Label in InputLabels:
+		sys.stderr.write("\nFATAL ERROR\nDuplicate label >%s\n\n" % Label)
+		fTmpFev.close()
+		if Args.keeptmp == "no":
+			for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
+				Exec("rm -f " + FN)
+		sys.exit(1)
+	else:
+		InputLabels.add(Label)
+
 	if Label in Labels:
 		L = len(Seq)
 		Line = Label
