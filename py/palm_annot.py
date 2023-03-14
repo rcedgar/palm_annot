@@ -61,6 +61,12 @@ AP.add_argument("--keeptmp",
   choices=[ "no", "yes" ],
   help="Keep tmp files for trouble-shooting (default no)")
 
+AP.add_argument("--logfiles",
+  required=False,
+  default="no",
+  choices=[ "no", "yes" ],
+  help="Keep log files in tmpdir for trouble-shooting")
+
 Args = AP.parse_args()
 
 TmpDir = Args.tmpdir
@@ -75,8 +81,17 @@ r = random.randint(0, 999999)
 TmpPrefix = TmpDir + "palm_annot.pa.%d.%d." % (pid, r)
 sys.stderr.write("TmpPrefix = %s\n" % TmpPrefix)
 
+fLog = None
+if Args.logfiles == "yes":
+	LogFN = TmpPrefix + "exec.log"
+	fLog = open(LogFN, "w")
+
 def Exec(CmdLine):
+	if not fLog is None:
+		fLog.write("exec %s\n" % CmdLine)
 	Code = os.system(CmdLine)
+	if not fLog is None:
+		fLog.write("code %d\n" % Code)
 	if Code != 0:
 		sys.stderr.write("\n")
 		sys.stderr.write(CmdLine + "\n")
@@ -97,6 +112,9 @@ CmdLine += " -trunclabels"
 CmdLine += "  -fev " + PSSM_fev
 if not Args.threads is None:
 	CmdLine += "  -threads %d" % Args.threads
+if Args.logfiles == "yes":
+	LogFN = TmpPrefix + "search_pssms.log"
+	CmdLine += "  -log " + LogFN
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_hmm_motif_search.py"
@@ -176,10 +194,13 @@ if not Args.fev is None:
 	CmdLine += " -fev " + Args.fev
 if not Args.fasta is None:
 	CmdLine += " -fasta " + Args.fasta
+if not Args.logfiles is None:
+	LogFN = TmpPrefix + "pamerge.log"
+	CmdLine += " -log " + LogFN
 Exec(CmdLine)
 
 if Args.keeptmp == "no":
-	for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
+	for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev, Args.fev, Args.fasta ]:
 		Exec("rm -f " + FN)
 
 Pct = 0

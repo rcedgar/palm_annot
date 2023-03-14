@@ -207,3 +207,5 @@ for Line in open(TsvFN):
 	fFev.write(FevRec + "\n")
 
 fFev.close()
+
+Exec("rm -f " + TsvFN)
