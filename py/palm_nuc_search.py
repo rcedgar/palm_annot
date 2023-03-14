@@ -168,9 +168,9 @@ def OnSeq(Label, Seq):
 	if Label0Set in Label0Set:
 		sys.stderr.write("\n===ERROR===\nDuplicate label >%s\n\n" % Label0)
 		sys.exit(1)
-	Label0Set.add(Label)
 
 	if Label0 in Labels:
+		Label0Set.add(Label)
 		fasta.WriteSeq(fOut, Seq, Label)
 
 fasta.ReadSeqsOnSeq(Args.input, OnSeq)
