@@ -200,7 +200,7 @@ if not Args.logfiles is None:
 Exec(CmdLine)
 
 if Args.keeptmp == "no":
-	for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev, Args.fev, Args.fasta ]:
+	for FN in [ PSSM_fev, HMM_motif_fev, HMM_pm_fev, Dmnd_fev, Tmp_fev ]:
 		Exec("rm -f " + FN)
 
 Pct = 0
