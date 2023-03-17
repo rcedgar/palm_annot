@@ -86,7 +86,7 @@ AP.add_argument("--framestr",
   default="_frame=",
   help="Append this string to translated sequence labels followed by frame -3 .. +3 (default _frame=)")
 
-AP.add_argument("--minpssmcore",
+AP.add_argument("--minpssmscore",
   required=False,
   type=float,
   default=10.0,
