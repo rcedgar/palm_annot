@@ -86,6 +86,12 @@ AP.add_argument("--framestr",
   default="_frame=",
   help="Append this string to translated sequence labels followed by frame -3 .. +3 (default _frame=)")
 
+AP.add_argument("--minpssmcore",
+  required=False,
+  type=float,
+  default=10.0,
+  help="Minimum PSSM score to report hit, 20 is high confidence (default 10.0)")
+
 Args = AP.parse_args()
 
 if not Args.fullnt is None and Args.seqtype != "nt":
@@ -167,7 +173,8 @@ CmdLine = RepoDir + "bin/palmscan2"
 CmdLine += " -search_pssms " + AaFN
 CmdLine += " -model " + PSSMModelFN
 CmdLine += " -trunclabels"
-CmdLine += "  -fev " + PSSM_fev
+CmdLine += " -min_palm_score %.1f" % Args.minpssmscore
+CmdLine += " -fev " + PSSM_fev
 if not Args.threads is None:
 	CmdLine += "  -threads %d" % Args.threads
 if Args.keeptmp == "yes":
