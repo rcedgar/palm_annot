@@ -20,7 +20,10 @@ AP.add_argument("--afa_Right", required=True)
 AP.add_argument("--order", choices=["ABC", "CAB"], required=True)
 AP.add_argument("--name", default="Seq")
 AP.add_argument("--motif_msa_prefix", default="motif")
+AP.add_argument("--output", required=True)
 Args = AP.parse_args()
+
+fOut = open(Args.output, "w")
 
 W = 16
 BLOCK = 80
@@ -29,7 +32,7 @@ N = 0
 def RSD(FN):
 	global N
 	Seqs = []
-	D = fasta_tiny.ReadSeqsDict(FN)
+	D = fasta.ReadSeqsDict(FN)
 	Labels = list(D.keys())
 	for Label in Labels:
 		Seq = D[Label]
@@ -250,7 +253,7 @@ MotifRow = ""
 for c in MotifVec:
 	MotifRow += c
 
-print("# STOCKHOLM 1.0")
+fOut.write("# STOCKHOLM 1.0\n")
 
 MatchA = ColToMatch[ColA]
 MatchB = ColToMatch[ColB]
@@ -262,33 +265,33 @@ assert MatchC >= 0
 
 s = "#=CC PolHummer %s:%s:%d A:%d:%s B:%d:%s C:%d:%s" % \
   (Args.name, Args.order, MatchCount, MatchA + 1, ConsA, MatchB + 1, ConsB, MatchC + 1, ConsC)
-print(s)
+fOut.write(s + "\n")
 
 StartCol = 0
 while 1:
 	if StartCol >= ColCount:
 		break
-	print("")
+	fOut.write("\n")
 	EndCol = StartCol + BLOCK - 1
 	if EndCol >= ColCount:
 		EndCol = ColCount - 1
 
 	s = "%-*.*s  " % (W, W, "#=CC ABC")
 	s += MotifRow[StartCol:EndCol+1]
-	print(s)
+	fOut.write(s + "\n")
 
 	for SeqIndex in range(SeqCount):
 		s = "%-*.*s  " % (W, W, Labels[SeqIndex])
 		Row = Rows[SeqIndex]
 		assert len(Row) == ColCount
 		s += Row[StartCol:EndCol+1]
-		print(s)
+		fOut.write(s + "\n")
 # Recommended placements: #=GF Above the alignment
 # https://en.wikipedia.org/wiki/Stockholm_format#Recommended_features
 	s = "%-*.*s  " % (W, W, "#=GC RF")
 	s += RF[StartCol:EndCol+1]
-	print(s)
+	fOut.write(s + "\n")
 
 	StartCol = EndCol + 1
 
-print("//")
+fOut.write("//\n")

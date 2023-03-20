@@ -6,9 +6,12 @@ import fasta
 
 AP = argparse.ArgumentParser()
 AP.add_argument("--input", required=True, help="Input FASTA")
+AP.add_argument("--output", required=True, help="Output FASTA")
 AP.add_argument("--minseqs", required=False, type=int, default=1, help="Minimum number of sequences with non-X")
 AP.add_argument("--end", required=True, choices=[ "Left", "Right"], help="Left or right")
 Args = AP.parse_args()
+
+fOut = open(Args.output, "w")
 
 MinNX = None
 MaxNX = None
@@ -70,11 +73,11 @@ for i in range(N):
 			Seq = Seq[:-1]
 	if len(Seq) == 0:
 		ND += 1
-		contnue
+		continue
 	NOut += 1
-	fasta.WriteSeq(sys.stdout, Seq, Label)
+	fasta.WriteSeq(fOut, Seq, Label)
 
 if N == 0:
-	sys.stderr.write("fasta_trimx.py, empty input %s\n" % Args.input)
+	sys.stderr.write("polhummer_fasta_trimx.py, empty input %s\n" % Args.input)
 else:
 	sys.stderr.write("NX %d .. %d, M %d, input %d, deleted %d, output %d\n" % (MinNX, MaxNX, M, N, ND, NOut))

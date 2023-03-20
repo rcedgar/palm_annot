@@ -6,6 +6,7 @@ import fasta
 
 AP = argparse.ArgumentParser()
 AP.add_argument("--input", required=True, help="Input FASTA")
+AP.add_argument("--output", required=True, help="Output FASTA")
 AP.add_argument("--minlength", required=True, type=int, help="Minimum seq length, shorter discarded")
 AP.add_argument("--trimlength", required=True, type=int, help="Longer truncated, shorter padded with Xs")
 AP.add_argument("--end", required=True, choices=[ "Left", "Right"], help="Left or right")
@@ -13,6 +14,8 @@ AP.add_argument("--maxn", required=True, type=int, help="Maximum number to outpu
 Args = AP.parse_args()
 
 Triples = []
+
+fOut = open(Args.output, "w")
 
 def OnSeq(Label, Seq):
 	L = len(Seq)
@@ -42,4 +45,4 @@ M = len(SortedTriples)
 N = min(Args.maxn, M)
 for i in range(N):
 	Label, Seq, L = SortedTriples[M-i-1]
-	fasta.WriteSeq(sys.stdout, Seq, Label)
+	fasta.WriteSeq(fOut, Seq, Label)
