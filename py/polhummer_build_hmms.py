@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-########################################################
-########################################################
-##	Cmd += " -exclude RT+RT2"
-########################################################
-########################################################
-
 import sys
 import argparse
 import os
@@ -13,7 +7,11 @@ from time import gmtime, strftime
 
 Usage = \
 (
-"TODO"
+"Build RdRp/RT HMMs by greedy clustering, requires pre-built PSSMs."
+" HMMs are constructed such that A, B and C motif match states are"
+" contiguous (no intervening insert states). Columns containing"
+" motifs are annotated in the Stockholm-format seed alignments,"
+" enabling identifications of motifs in alignments to the HMMs."
 )
 
 # RepoDir = path name of repository
@@ -47,6 +45,7 @@ AP.add_argument("--outdir",
 
 AP.add_argument("--evalue",
   required=False,
+  type=float,
   default=0.001,
   help="Max E-value (default 0.001)")
 
@@ -72,7 +71,7 @@ AP.add_argument("--minhitpct",
   required=False,
   type=float,
   default=5,
-  help="Min hit percent to continue iterating (default 3)")
+  help="Min hit percent to continue iterating (default 5)")
 
 AP.add_argument("--maxseed",
   required=False,
@@ -183,7 +182,12 @@ Exec("mkdir " + HmmDir)
 Exec("mkdir " + IterDir)
 Exec("mkdir " + Iter0Dir)
 
-Exec("cp %s %s/miss.fa" % (Args.input, Iter0Dir))
+Miss0FN = Iter0Dir + "miss.fa"
+Cmd = "fasta_clean.py"
+Cmd += " --input " + Args.input
+Cmd += " --output " + Miss0FN
+Cmd += " --dupes relabel"
+Exec(Cmd)
 
 def GetSeqCount(FN):
 	try:
@@ -498,9 +502,11 @@ def Iter(IterIndex):
 
 	return True
 
-for IterIndex in range(1, Args.maxhmms):
+HMMCount = 0
+for IterIndex in range(1, Args.maxhmms+1):
 	Ok = Iter(IterIndex)
 	if not Ok:
 		break
+	HMMCount += 1
 
-Log("Done, %d HMMs created" % (IterIndex-1))
+Log("Done, %d HMMs created" % HMMCount)
