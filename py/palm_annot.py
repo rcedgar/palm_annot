@@ -279,4 +279,4 @@ Pct = 0
 if SeqCount > 0:
 	Pct = (100.0*OutCount)/SeqCount
 
-sys.stderr.write("\n%u of %u (%.4g%%) palm sequences reported\n\n" % (SeqCount, OutCount, Pct))
+sys.stderr.write("\n%u of %u (%.4g%%) palm sequences reported\n\n" % (OutCount, SeqCount, Pct))
