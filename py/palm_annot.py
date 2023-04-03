@@ -255,7 +255,6 @@ if Args.keeptmp == "no":
 Exec(CmdLine)
 
 def OnSeqFull(Label, Seq):
-###	print("Label=" + Label)
 	if Label in NtLabels:
 		fasta.WriteSeq(fFull, Seq, Label)
 
@@ -267,7 +266,6 @@ if not Args.fullnt is None:
 	for Label in OutputLabels:
 		NtLabel = Label.split(Args.framestr)[0]
 		NtLabels.add(NtLabel)
-###	print(NtLabels)
 	fasta.ReadSeqsOnSeq(CleanFN, OnSeqFull)
 	fFull.close()
 
