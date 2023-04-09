@@ -52,8 +52,7 @@ AP.add_argument("--evalue",
 AP.add_argument("--PH",
   required=False,
   default="PH",
-  choices = [ "PH", "PN" ],
-  help="Name prefix, PH for RdRp PN for non-RdRp (default PH)")
+  help="Name prefix (default PH)")
 
 AP.add_argument("--minseqs",
   required=False,
@@ -149,8 +148,8 @@ def Log(s):
 			s += " " + Arg
 		fLog.write(s + "\n")
 	ml = s.replace(' -', '\n        -')
-	sys.stdout.write("[" + str(IterIndex) + "] " + ml + "\n")
-	fLog.write(ts + " [" + str(IterIndex) + "] " + s + "\n")
+	sys.stdout.write("[" + Args.PH + "/" + str(IterIndex) + "] " + ml + "\n")
+	fLog.write(ts + " [" + Args.PH + "/"+ str(IterIndex) + "] " + s + "\n")
 
 def Exec(Cmd):
 	assert Cmd[0] != '/'
