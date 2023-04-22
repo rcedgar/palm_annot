@@ -8,7 +8,7 @@ import fasta
 
 Usage = \
 (
-"Find RdRp sequences in nt or aa sequences and trim non-RdRp "
+"Find RdRp in nt or aa sequences and trim non-RdRp "
 " flanking sequence using '150pp150' trimming, i.e. allow no"
 " more than 150aa before the palmprint start and no more than"
 " 150aa after palmprint end, partial palmprints are allowed."

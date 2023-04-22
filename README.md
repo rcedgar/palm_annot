@@ -11,35 +11,6 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 3. Make sure execute permission is set on `~/palm_annot/bin/*` and `~/palm_annot/py/*`.
 
-### FASTA labels
-
-FASTA labels must be unique after truncating at first white space or pipe character (vertical bar, '|').
-If you are using an ORF-finder or 6-frame translation software which appends information such as coordinates
-and frame after white space, you must post-process the FASTA file to ensure that labels are unique, e.g. by
-replacing blanks with underscores.
-
-### palm_nuc_search.py
-
-Search nucleotide sequences, e.g contigs or genomes, for RdRp and RdRp-like sequences. Output is the subset of input
-sequences predicted to have RdRp or RdRp-like hits, no trimming or annotation is performed. Trimming and annotation of the
-matching sequences can be done by (1) translating to aa by 6-frame translation or ORF-finding, then (2) running
-`palm_annot.py` on the aa sequences.
-<pre>
-palm_nuc_search.py --input contigs.fna --output hits.fna
-
-Optional arguments:
-  --tmpdir TMPDIR       Directory for temporary files
-  --evalue EVALUE       Max E-value for HMM and diamond search
-                          (default 1e-3)
-  --dbsize DBSIZE       Effective db size for E-value
-                          (-Z option of hmmsearch, default 100000)
-  --threads THREADS     Number of threads for HMM and diamond search
-                          (default relevant options not set)
-  --sensitive {fast,midsensitive,more-sensitive,very-sensitive}
-                        diamond sensitivity option
-                          (default very-sensitive)
-</pre>
-
 ### palm_annot.py
 
 Classify amino acid sequences as RdRp or non-RdRp palm domain and trim to the domain by deleting non-palm flanking sequence
@@ -47,16 +18,37 @@ using '150pp150' trimming, i.e. allow no more than 150aa before the palmprint st
 end. See `palm_nuc_search.py` if you have nucleotide sequence such as contigs or genomes.
 
 <pre>
-palm_annot.py --input sixframe.faa --fev hits.fev --rdrp rdrp.faa -xdxp xdxp.faa
+usage: palm_annot.py [-h] --input INPUT --seqtype {nt,aa} [--fev FEV] [--rdrp RDRP] [--fullnt FULLNT]
+                     [--minscore MINSCORE] [--threads THREADS] [--tmpdir TMPDIR] [--keeptmp {no,yes}]
+                     [--white {truncate,replace}] [--whitestr WHITESTR] [--dupes {delete,relabel}]
+                     [--pattern PATTERN] [--framestr FRAMESTR] [--minpssmscore MINPSSMSCORE]
 
-Options:
-  --fev FEV             Annotation output file
-                          (tab-separated text in field=value format)
-  --fasta FASTA         Trimmed RdRp sequences
+Find RdRp and trim non-RdRp flanking sequence using '150pp150' trimming, i.e.
+allow no more than 150aa before the palmprint start and no more than 150aa after palmprint end, partial
+palmprints are allowed. This is also called 'palmcore' trimming.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --input INPUT         Input FASTA
+  --seqtype {nt,aa}     Sequence type (nt or aa)
+  --fev FEV             Annotation output file (tab-separated text in field=value format)
+  --rdrp RDRP           Trimmed RdRp aa sequences (FASTA)
+  --fullnt FULLNT       Full-length nt input sequences where RdRp found (FASTA)
   --minscore MINSCORE   Minimum score for RdRp (0 to 100, default 75)
-  --threads THREADS     Number of threads (default depends on invoked script or binary)
+  --threads THREADS     Number of threads (default don't set thread options)
   --tmpdir TMPDIR       Directory for temporary files (default /tmp)
-</pre>
+  --keeptmp {no,yes}    Keep tmp files for trouble-shooting (default no)
+  --white {truncate,replace}
+                        Remove label white space by truncating or replacing (default truncate)
+  --whitestr WHITESTR   Replacement string for --white replace (default '_')
+  --dupes {delete,relabel}
+                        Eliminate duplicate labels by deleting sequence or relabeling (default delete)
+  --pattern PATTERN     Pattern to append to duplicate label, must contain @ which is replaced by 1,2...
+                        (default '/dupe@')
+  --framestr FRAMESTR   Append this string to translated sequence labels followed by frame -3 .. +3 (default
+                        _frame=)
+  --minpssmscore MINPSSMSCORE
+                        Minimum PSSM score to report hit, 20 is high confidence (default 10.0)
 </pre>
 
 ### fev2tsv.py
