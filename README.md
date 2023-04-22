@@ -13,19 +13,15 @@ This version **requires Ubuntu** (or compatible) due to use of precompiled binar
 
 ### palm_annot.py
 
-Classify amino acid sequences as RdRp or non-RdRp palm domain and trim to the domain by deleting non-palm flanking sequence
-using '150pp150' trimming, i.e. allow no more than 150aa before the palmprint start and no more than 150aa after palmprint
-end. See `palm_nuc_search.py` if you have nucleotide sequence such as contigs or genomes.
+Find RdRp and trim non-RdRp flanking sequence using '150pp150' trimming, i.e.
+allow no more than 150aa before the palmprint start and no more than 150aa after palmprint end, partial
+palmprints are allowed. This is also called 'palmcore' trimming.
 
 <pre>
 usage: palm_annot.py [-h] --input INPUT --seqtype {nt,aa} [--fev FEV] [--rdrp RDRP] [--fullnt FULLNT]
                      [--minscore MINSCORE] [--threads THREADS] [--tmpdir TMPDIR] [--keeptmp {no,yes}]
                      [--white {truncate,replace}] [--whitestr WHITESTR] [--dupes {delete,relabel}]
                      [--pattern PATTERN] [--framestr FRAMESTR] [--minpssmscore MINPSSMSCORE]
-
-Find RdRp and trim non-RdRp flanking sequence using '150pp150' trimming, i.e.
-allow no more than 150aa before the palmprint start and no more than 150aa after palmprint end, partial
-palmprints are allowed. This is also called 'palmcore' trimming.
 
 optional arguments:
   -h, --help            show this help message and exit
