@@ -58,7 +58,7 @@ else:
 
 fOut = sys.stdout
 if not Args.output is None:
-	fOut = open(Args.output)
+	fOut = open(Args.output, "w")
 
 if Args.header == "yes":
 	Hdr = "Label"
