@@ -140,7 +140,7 @@ def MakeTmp(Name):
 
 CleanFN = MakeTmp("clean")
 
-CmdLine = "fasta_clean.py"
+CmdLine = RepoDir + "/fasta_clean.py"
 CmdLine += " --input " + Args.input
 CmdLine += " --output " + CleanFN
 CmdLine += " --white " + Args.white
