@@ -183,22 +183,25 @@ if Args.keeptmp == "yes":
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_hmm_motif_search.py"
-CmdLine += "  --input " + AaFN
+CmdLine += " --input " + AaFN
 CmdLine += " --fev " + HMM_motif_fev
+CmdLine += " --tmpdir " + TmpDir
 if not Args.threads is None:
 	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_hmm_search.py"
-CmdLine += "  --input " + AaFN
-CmdLine += "  --fev " + HMM_pm_fev
+CmdLine += " --input " + AaFN
+CmdLine += " --fev " + HMM_pm_fev
+CmdLine += " --tmpdir " + TmpDir
 if not Args.threads is None:
 	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
 
 CmdLine = RepoDir + "py/palm_diamond_motif_search.py"
-CmdLine += "  --input " + AaFN
+CmdLine += " --input " + AaFN
 CmdLine += " --fev " + Dmnd_fev
+CmdLine += " --tmpdir " + TmpDir
 if not Args.threads is None:
 	CmdLine += "  --threads %d" % Args.threads
 Exec(CmdLine)
